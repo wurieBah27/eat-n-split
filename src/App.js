@@ -119,7 +119,12 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const value = whoIspaying === "you" ? paidByFriend : -paidByUser;
+    const value =
+      whoIspaying === "you"
+        ? paidByFriend
+        : whoIspaying === "bothPaid"
+        ? 0
+        : -paidByUser;
     onSplitBill(value);
   }
 
@@ -156,6 +161,7 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
       >
         <option value={"you"}>You</option>
         <option value={"friend"}> {selectedFriend.name} </option>
+        <option value={"bothPaid"}> Paid separately </option>
       </select>
       <Button>Split Bill</Button>
     </form>
@@ -176,6 +182,8 @@ const App = () => {
           : friend
       )
     );
+
+    setSelectedFriend(null);
   }
 
   function handleSelectedFriend(friend) {
